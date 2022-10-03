@@ -4,6 +4,8 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
   else if (typeof tax !== "boolean") return "Invalid Tax";
   const coupon = ["FAZZFOOD50", "DITRAKTIR60"];
   if (codeDiscount) {
+    if (typeof codeDiscount !== "string")
+      return "Invalid! Coupun Must Be a String";
     if (codeDiscount !== coupon[0] && codeDiscount !== coupon[1])
       return "Invalid! Coupon Not Found";
   }
@@ -11,6 +13,7 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
   let shipCost = "";
   let priceTax = "";
   let subTotal = "";
+  // Menghitung Diskon
   if (codeDiscount) {
     let discount = "";
     if (codeDiscount == coupon[0]) {
@@ -37,28 +40,33 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
       }
     }
   }
+  // Menghitung Ongkir
   if (distance < 2) {
     shipCost = 5000;
   } else {
     shipCost = (distance - 2) * 3000 + 5000;
   }
+  // Menghitung Pajak
   if (tax == true) {
     priceTax = (5 * price) / 100;
   } else {
     priceTax = 0;
   }
+  // Menghitung Subtotal
   if (results == 0) {
     subTotal = price + shipCost + priceTax;
-    results = "-";
+    results = "0";
   } else {
     subTotal = results + shipCost + priceTax;
   }
 
-  return `Price : ${price}
-Discount : ${results}
+  return `====== FazzFood Delivery ======
+Price         : ${price}
+Discount      : ${results}
 Shipping Cost : ${shipCost}
-Tax : ${priceTax}
-SubTotal : ${subTotal}`;
+Tax           : ${priceTax}
+========================= +
+SubTotal      : ${subTotal}`;
 };
 
-console.log(FazzFood(75000, "FAZZFOOD50", 5, true));
+console.log(FazzFood(75000, null, 5, false));
