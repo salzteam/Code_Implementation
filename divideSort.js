@@ -1,4 +1,5 @@
 function divideAndSort(num) {
+  if (typeof num !== "number") return console.log("Invalid! Must Be Number");
   console.log(
     `${num}`
       .split("0")
