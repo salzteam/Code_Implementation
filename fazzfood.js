@@ -69,4 +69,4 @@ Tax           : ${priceTax}
 SubTotal      : ${subTotal}`;
 };
 
-console.log(FazzFood(75000, null, 5, false));
+console.log(FazzFood(75000, "FAZZFOOD50", 5, true));
