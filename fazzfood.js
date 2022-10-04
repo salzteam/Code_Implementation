@@ -6,17 +6,13 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
   if (codeDiscount) {
     if (typeof codeDiscount !== "string")
       return "Invalid! Coupun Must Be a String";
-    if (codeDiscount !== coupon[0] && codeDiscount !== coupon[1])
-      return "Invalid! Coupon Not Found";
   }
-  let results = "";
-  let shipCost = "";
-  let priceTax = "";
-  let subTotal = "";
-  // Menghitung Diskon
+  let results = 0,
+    shipCost = 5000,
+    priceTax = 0,
+    discount = 0;
   if (codeDiscount) {
-    let discount = "";
-    if (codeDiscount == coupon[0]) {
+    if (coupon.includes(codeDiscount)) {
       if (price > 49000) {
         discount = 0.5 * price;
         if (discount > 50000) {
@@ -24,10 +20,8 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
           results = price - discount;
         }
         results = price - discount;
-      } else {
-        return "Order price must be at least Rp 50.000 for this coupon";
       }
-    } else if (codeDiscount == coupon[1]) {
+    } else if (coupon.includes(codeDiscount)) {
       if (price > 24000) {
         discount = 0.6 * price;
         if (discount > 30000) {
@@ -35,38 +29,21 @@ const FazzFood = (price, codeDiscount, distance, tax) => {
           results = price - discount;
         }
         results = price - discount;
-      } else {
-        return "Order price must be at least Rp 25.000 for this coupon";
       }
     }
   }
-  // Menghitung Ongkir
-  if (distance < 2) {
-    shipCost = 5000;
-  } else {
-    shipCost = (distance - 2) * 3000 + 5000;
+  if (distance > 2) {
+    shipCost = (distance - 2) * 3000 + 5000; // Menghitung Ongkir
   }
-  // Menghitung Pajak
-  if (tax == true) {
-    priceTax = (5 * price) / 100;
-  } else {
-    priceTax = 0;
+  if (tax) {
+    priceTax = 0.05 * price; // Menghitung Pajak
   }
-  // Menghitung Subtotal
-  if (results == 0) {
-    subTotal = price + shipCost + priceTax;
-    results = "0";
-  } else {
-    subTotal = results + shipCost + priceTax;
-  }
-
   return `====== FazzFood Delivery ======
 Price         : ${price}
-Discount      : ${results}
+Discount      : - ${results}
 Shipping Cost : ${shipCost}
 Tax           : ${priceTax}
 ========================= +
-SubTotal      : ${subTotal}`;
+SubTotal      : ${price - results + shipCost + priceTax}`; // Menghitung Subtotal
 };
-
-console.log(FazzFood(75000, "FAZZFOOD50", 5, true));
+console.log(FazzFood(75000, "DITRAKTIR60", 5, true));
